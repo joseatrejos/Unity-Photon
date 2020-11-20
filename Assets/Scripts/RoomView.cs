@@ -15,12 +15,16 @@ public class RoomView : MonoBehaviour
 
     [SerializeField] Object srcPlayerNicknameItem;
 
+    [SerializeField] Button btnStartGame;
+
     void Awake()
     {
         btnLeaveRoom.onClick.AddListener(LeaveCurrentRoom);
+        btnStartGame.onClick.AddListener(Launcher.instance.CreateGame);
     }
 
     public void SetRoomName(string roomName) => txtRoomName.text = roomName;
+    public void startGameVisible(bool visible) => btnStartGame.gameObject.SetActive(visible);
 
     void OnEnable()
     {

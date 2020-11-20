@@ -51,8 +51,14 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         Debug.Log("Connected to master server");
         PhotonNetwork.JoinLobby();
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
-    
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        roomViewObj.startGameVisible(PhotonNetwork.IsMasterClient);
+    }
+
     public override void OnJoinedLobby()
     {
         if(firstTime)
@@ -96,6 +102,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         roomView.SetActive(true);
         Debug.Log($"Created room: {PhotonNetwork.CurrentRoom.Name}");
         roomViewObj.FillPlayerListContainer(PhotonNetwork.PlayerList);
+        roomViewObj.startGameVisible(PhotonNetwork.IsMasterClient);
     }
 
     public override void OnPlayerEnteredRoom(Player player)
@@ -152,5 +159,10 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         findRoomViewObj.FillRoomList(roomList);
+    }
+
+    public void CreateGame()
+    {
+
     }
 }
